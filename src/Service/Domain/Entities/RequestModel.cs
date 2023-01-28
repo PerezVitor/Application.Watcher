@@ -1,18 +1,15 @@
-﻿using Service.Domain.Interfaces;
-
-namespace Service.Domain.Entities;
-public class RequestModel : IProcessamento
+﻿namespace Service.Domain.Entities;
+public class RequestModel : BaseModel
 {
-    public string? RequestBody { get; set; }
-    public string? QueryString { get; set; }
-    public string? Path { get; set; }
-    public string? Headers { get; set; }
-    public string? Method { get; set; }
-    public string? Host { get; set; }
-    public string? IpAddress { get; set; }
+    public string RequestBody { get; set; }
+    public string QueryString { get; set; }
+    public string Path { get; set; }
+    public string Headers { get; set; }
+    public string Method { get; set; }
+    public string Host { get; set; }
+    public string IpAddress { get; set; }
     public DateTime StartTime { get; set; }
-    public bool IsExecuted { get; set; }
 
-    public void InsertLog() => Console.WriteLine("Request {0}", StartTime);
-    public void SetExecuted() => IsExecuted = true;
+    public RequestModel() => StartTime = DateTime.Now;
+    public override void InsertLog() => Console.WriteLine("Request {0} {1}", StartTime, Id);
 }
