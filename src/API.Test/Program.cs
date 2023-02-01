@@ -1,5 +1,4 @@
 using Service;
-using Service.Application.Log;
 using Service.Application.Log.Inteface;
 
 #region Services
@@ -7,7 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAppWatcherServices();
+builder.Services.AddAppWatcherServices(opt =>
+{
+    opt.ConnectionString = builder.Configuration.GetConnectionString("AppWatcher");
+    opt.ApplicationName = "API.Test";
+});
 #endregion
 
 #region App

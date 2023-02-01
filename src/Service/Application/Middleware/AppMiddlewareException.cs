@@ -14,7 +14,7 @@ internal class AppMiddlewareException : IException
         ExceptionModel _exceptionLogger = new();
         _mapper.Map(request, _exceptionLogger);
         _mapper.Map(exception, _exceptionLogger);
-        _exceptionLogger.Id = id;
+        _exceptionLogger.IdSecundario = id;
 
         LogBackgroundService.AddException(_exceptionLogger);
         return Task.CompletedTask;

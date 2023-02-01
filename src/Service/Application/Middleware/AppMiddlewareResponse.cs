@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.IO;
 using Service.Application.Extensions;
 using Service.Application.Log;
@@ -34,7 +33,7 @@ public class AppMiddlewareResponse : IResponse
         }
         finally
         {
-            _responseModel.Id = id;
+            _responseModel.IdSecundario = id;
             _responseModel.ResponseStatus = context.Response.StatusCode;
             _responseModel.Headers = context.Response.GetContentOrEmpty();
 

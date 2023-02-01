@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.IO;
 using Service.Application.Middleware.Interface;
+using Service.Domain;
 using Service.Domain.Entities;
 
 namespace Service.Application.Middleware;
@@ -16,7 +17,7 @@ internal class AppMiddleware
         RequestDelegate next,
         IRequest requestLog,
         IResponse responseLog,
-        IException exceptionLog       
+        IException exceptionLog
     )
     {
         _recyclableMemoryStreamManager = new RecyclableMemoryStreamManager();

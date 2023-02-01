@@ -56,7 +56,7 @@ public class AppMiddlewareRequest : IRequest
     private RequestModel GetRequestModel(RequestModel _requestModel, Guid id, HttpRequest request)
     {
         _mapper.Map(request, _requestModel);
-        _requestModel.Id = id;
+        _requestModel.IdSecundario = id;
 
         return _requestModel;
     }

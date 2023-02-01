@@ -3,15 +3,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Service.Application.Log;
 using Service.Application.Mappings;
 using Service.Application.Middleware;
+using Service.Domain;
 using Service.Infra.IoC;
 
 namespace Service;
 public static class Startup
 {
-    public static IServiceCollection AddAppWatcherServices(this IServiceCollection services)
+    public static IServiceCollection AddAppWatcherServices(this IServiceCollection services, Action<AppOptions> serviceOptions)
     {
         services.AddHostedService<LogBackgroundService>();
+
         services.AddInfraStructure();
+
+        services.AddDbContextWithOptions(serviceOptions);
 
         services.AddAutoMapper(typeof(MapModels));
 

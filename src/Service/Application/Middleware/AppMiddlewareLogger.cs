@@ -15,7 +15,7 @@ internal class AppMiddlewareLogger : ILog
         LoggerModel _loggerModel = new();
 
         _mapper.Map(log, _loggerModel);
-        _loggerModel.Id = Guid.NewGuid();
+        _loggerModel.IdSecundario = Guid.NewGuid();
 
         LogBackgroundService.AddLog(_loggerModel);
         return Task.CompletedTask;

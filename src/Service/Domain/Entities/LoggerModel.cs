@@ -9,5 +9,5 @@ public class LoggerModel : BaseModel
     public string LogLevel { get; set; }
 
     public LoggerModel() => Timestamp = DateTime.Now;
-    public override void InsertLog() => Console.WriteLine("Log {0} {1} {2}", LogLevel, Message, Id);
+    public override void InsertLog() => Console.WriteLine("Log {0} {1} {2}", LogLevel, Message, IdSecundario);
 }

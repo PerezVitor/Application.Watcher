@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Service.Application.Log;
 using Service.Application.Log.Inteface;
+using Service.Application.LogApp;
 using Service.Application.Middleware;
 using Service.Application.Middleware.Interface;
-using Service.Domain.Entities;
 
 namespace Service.Infra.IoC;
-internal static class DependencyInjection
+internal static class DependencyInjectionInfraStructure
 {
     public static IServiceCollection AddInfraStructure(this IServiceCollection services)
     {
@@ -16,10 +16,7 @@ internal static class DependencyInjection
         services.AddTransient<ILoggerService, LoggerService>();
         services.AddTransient<ILog, AppMiddlewareLogger>();
 
-        services.AddTransient<ExceptionModel>();
-        services.AddTransient<RequestModel>();
-        services.AddTransient<ResponseModel>();
-        services.AddTransient<LoggerModel>();
+        services.AddScoped<LogDbProcess>();
 
         return services;
     }

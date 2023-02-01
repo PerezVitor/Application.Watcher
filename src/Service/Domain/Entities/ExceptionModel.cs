@@ -12,5 +12,5 @@ public class ExceptionModel : BaseModel
     public string StackTrace { get; set; }
 
     public ExceptionModel() => EncounteredAt = DateTime.Now;
-    public override void InsertLog() => Console.WriteLine("Exception {0} - {1}", StackTrace, Id);
+    public override void InsertLog() => Console.WriteLine("Exception {0} - {1}", StackTrace, IdSecundario);
 }

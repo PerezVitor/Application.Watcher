@@ -1,8 +1,10 @@
 ﻿namespace Service.Domain.Interfaces;
 public interface IProcessamento
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
+    public Guid IdSecundario { get; set; }
     public bool IsExecuted { get; set; }
-    public void InsertLog();
+    
     public void SetExecuted();
+    public void InsertLog();
 }
