@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.IO;
 using Service.Application.Extensions;
-using Service.Application.Log;
 using Service.Application.Middleware.Interface;
+using Service.Application.Services;
 using Service.Domain.Entities;
 
 namespace Service.Application.Middleware;
@@ -33,11 +33,11 @@ public class AppMiddlewareResponse : IResponse
         }
         finally
         {
-            _responseModel.IdSecundario = id;
+            _responseModel.CycleId = id;
             _responseModel.ResponseStatus = context.Response.StatusCode;
             _responseModel.Headers = context.Response.GetContentOrEmpty();
 
-            LogBackgroundService.AddResponse(_responseModel);
+            WatcherService.AddResponse(_responseModel);
             context.Response.Body = originalBodyStream;
         }
     }

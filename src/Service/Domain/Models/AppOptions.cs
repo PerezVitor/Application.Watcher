@@ -1,4 +1,4 @@
-﻿namespace Service.Domain;
+﻿namespace Service.Domain.Models;
 public class AppOptions
 {
     /// <summary>
@@ -6,9 +6,4 @@ public class AppOptions
     /// </summary>
     public string ConnectionString { get; set; }
     public string ApplicationName { get; set; }
-}
-
-public static class AppOptionsStatic
-{
-    public static string ApplicationName { get; set; }
 }

@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Meempregarh.Infra.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using Service.Domain;
+using Service.Domain.Models;
 using Service.Infra.Data.Context;
+using Service.Infra.Data.Interfaces;
+using Service.Infra.Data.Repositories;
 
 namespace Service.Infra.IoC;
 internal static class DependencyInjectionDbContext
@@ -11,9 +13,15 @@ internal static class DependencyInjectionDbContext
         var options = new AppOptions();
         serviceOptions(options);
 
-        services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(options.ConnectionString));
-
         AppOptionsStatic.ApplicationName = options.ApplicationName;
+        AppOptionsStatic.ConnectionString = options.ConnectionString;
+
+        services.AddTransient<ApplicationDbContext>();
+
+        services.AddTransient<IExceptionRepository, ExceptionRepository>();
+        services.AddTransient<IResponseRepository, ResponseRepository>();
+        services.AddTransient<ILoggerRepository, LoggerRepository>();
+        services.AddTransient<IRequestRepository, RequestRepository>();
 
         return services;
     }

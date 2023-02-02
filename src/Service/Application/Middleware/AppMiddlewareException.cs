@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Service.Application.Log;
 using Service.Application.Middleware.Interface;
+using Service.Application.Services;
 using Service.Domain.Entities;
 
 namespace Service.Application.Middleware;
@@ -14,9 +14,9 @@ internal class AppMiddlewareException : IException
         ExceptionModel _exceptionLogger = new();
         _mapper.Map(request, _exceptionLogger);
         _mapper.Map(exception, _exceptionLogger);
-        _exceptionLogger.IdSecundario = id;
+        _exceptionLogger.CycleId = id;
 
-        LogBackgroundService.AddException(_exceptionLogger);
+        WatcherService.AddException(_exceptionLogger);
         return Task.CompletedTask;
     }
 }

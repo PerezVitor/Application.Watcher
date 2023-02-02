@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Service.Application.Log;
 using Service.Application.Log.Inteface;
-using Service.Application.LogApp;
 using Service.Application.Middleware;
 using Service.Application.Middleware.Interface;
 
@@ -15,8 +14,6 @@ internal static class DependencyInjectionInfraStructure
         services.AddTransient<IException, AppMiddlewareException>();
         services.AddTransient<ILoggerService, LoggerService>();
         services.AddTransient<ILog, AppMiddlewareLogger>();
-
-        services.AddScoped<LogDbProcess>();
 
         return services;
     }

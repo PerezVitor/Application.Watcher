@@ -11,5 +11,4 @@ public class RequestModel : BaseModel
     public DateTime StartTime { get; set; }
 
     public RequestModel() => StartTime = DateTime.Now;
-    public override void InsertLog() => Console.WriteLine("Request {0} {1} {2}", StartTime, IdSecundario, ApplicationName);
 }

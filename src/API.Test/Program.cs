@@ -27,8 +27,8 @@ app.Run();
 static void MapEndpoints(WebApplication app)
 {
     app.MapGet("request-response", () => {});
-    app.MapGet("log", (ILoggerService _logger) => { _logger.Log("Hello!"); });
-    app.MapGet("log-warning", (ILoggerService _logger) => { _logger.LogWarning("Be Careful"); });
-    app.MapGet("log-error", (ILoggerService _logger) => { _logger.LogError("Something was wrong"); });
-    app.MapGet("exception", () => { throw new Exception("New Exception thrown"); });
+    app.MapPost("log", (ILoggerService _logger) => { _logger.Log("Hello!"); });
+    app.MapPut("log-warning", (ILoggerService _logger) => { _logger.LogWarning("Be Careful"); });
+    app.MapDelete("log-error", (ILoggerService _logger) => { _logger.LogError("Something was wrong"); });
+    app.MapPost("exception", () => { throw new Exception("New Exception thrown"); });
 }

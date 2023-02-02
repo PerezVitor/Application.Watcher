@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IO;
-using Service.Application.Log;
 using Service.Application.Middleware.Interface;
+using Service.Application.Services;
 using Service.Domain.Entities;
 
 namespace Service.Application.Middleware;
@@ -23,7 +23,7 @@ public class AppMiddlewareRequest : IRequest
             context.Request.Body.Position = 0;
         }
 
-        LogBackgroundService.AddResquest(_requestModel);
+        WatcherService.AddResquest(_requestModel);
         return _requestModel;
     }
 
@@ -56,7 +56,7 @@ public class AppMiddlewareRequest : IRequest
     private RequestModel GetRequestModel(RequestModel _requestModel, Guid id, HttpRequest request)
     {
         _mapper.Map(request, _requestModel);
-        _requestModel.IdSecundario = id;
+        _requestModel.CycleId = id;
 
         return _requestModel;
     }

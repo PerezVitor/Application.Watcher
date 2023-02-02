@@ -7,5 +7,4 @@ public class ResponseModel : BaseModel
     public DateTime FinishTime { get; set; }
 
     public ResponseModel() => FinishTime = DateTime.Now;
-    public override void InsertLog() => Console.WriteLine("Response {0} {1}", FinishTime, IdSecundario);
 }

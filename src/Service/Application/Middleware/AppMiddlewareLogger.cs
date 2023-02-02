@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Service.Application.DTO;
-using Service.Application.Log;
 using Service.Application.Middleware.Interface;
+using Service.Application.Services;
 using Service.Domain.Entities;
 
 namespace Service.Application.Middleware;
@@ -15,9 +15,9 @@ internal class AppMiddlewareLogger : ILog
         LoggerModel _loggerModel = new();
 
         _mapper.Map(log, _loggerModel);
-        _loggerModel.IdSecundario = Guid.NewGuid();
+        _loggerModel.CycleId = Guid.NewGuid();
 
-        LogBackgroundService.AddLog(_loggerModel);
+        WatcherService.AddLog(_loggerModel);
         return Task.CompletedTask;
     }
 }
