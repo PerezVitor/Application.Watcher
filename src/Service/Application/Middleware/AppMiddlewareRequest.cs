@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IO;
+using Service.Application.Extensions;
 using Service.Application.Middleware.Interface;
 using Service.Application.Services;
 using Service.Domain.Entities;
@@ -14,25 +15,31 @@ public class AppMiddlewareRequest : IRequest
     public async Task<RequestModel> Log(Guid id, HttpContext context, RecyclableMemoryStreamManager recyclableMemoryStreamManager)
     {
         RequestModel _requestModel = new();
-        _requestModel = GetRequestModel(_requestModel, id, context.Request);
+        _requestModel = GetRequestModel(_requestModel, id, context);
 
-        if (context.Request.ContentLength > 1)
-        {
-            var requestBody = await GetBody(context.Request, recyclableMemoryStreamManager);
-            _mapper.Map(requestBody, _requestModel.RequestBody);
-            context.Request.Body.Position = 0;
-        }
-
+        await GetRequestBody(_requestModel, context, recyclableMemoryStreamManager);
+        
         WatcherService.AddResquest(_requestModel);
         return _requestModel;
+    }
+
+    private async Task GetRequestBody(RequestModel requestModel, HttpContext context, RecyclableMemoryStreamManager recyclableMemoryStreamManager)
+    {
+        if (context.Request.ContentLength > 1)
+        {
+            requestModel.RequestBody = await GetBody(context.Request, recyclableMemoryStreamManager);
+            context.Request.Body.Position = 0;
+        }
     }
 
     public static async Task<string> GetBody(HttpRequest request, RecyclableMemoryStreamManager recyclableMemoryStreamManager)
     {
         request.EnableBuffering();
-        await using var requestStream = recyclableMemoryStreamManager.GetStream();
-        await request.Body.CopyToAsync(requestStream);
-        return ReadStreamInChunks(requestStream);
+        await using (var requestStream = recyclableMemoryStreamManager.GetStream())
+        {
+            await request.Body.CopyToAsync(requestStream);
+            return ReadStreamInChunks(requestStream);
+        }
     }
 
     public static string ReadStreamInChunks(Stream stream)
@@ -53,10 +60,12 @@ public class AppMiddlewareRequest : IRequest
         return textWriter.ToString();
     }
 
-    private RequestModel GetRequestModel(RequestModel _requestModel, Guid id, HttpRequest request)
+    private RequestModel GetRequestModel(RequestModel _requestModel, Guid id, HttpContext context)
     {
-        _mapper.Map(request, _requestModel);
+        _mapper.Map(context.Request, _requestModel);
         _requestModel.CycleId = id;
+        _requestModel.Headers = context.Request.GetContentOrEmpty();
+        _requestModel.IpAddress = context.Connection.RemoteIpAddress.ToString();
 
         return _requestModel;
     }

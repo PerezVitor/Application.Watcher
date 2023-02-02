@@ -5,12 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Service.Domain.Entities;
 public abstract class BaseModel : Interfaces.IProcess
 {
-    protected BaseModel() => IsExecuted = false;
+    protected BaseModel()
+    {
+        IsExecuted = false;
+        ApplicationName = AppOptionsStatic.ApplicationName;
+    }
 
     [Key]
     public int Id { get; set; }
     public Guid CycleId { get; set; }
-    public static string ApplicationName => AppOptionsStatic.ApplicationName;
+    public string ApplicationName { get; private set; }
 
     [NotMapped]
     public bool IsExecuted { get; set; }

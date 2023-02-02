@@ -15,6 +15,7 @@ internal class AppMiddlewareException : IException
         _mapper.Map(request, _exceptionLogger);
         _mapper.Map(exception, _exceptionLogger);
         _exceptionLogger.CycleId = id;
+        _exceptionLogger.TypeOf = exception.GetType().ToString();
 
         WatcherService.AddException(_exceptionLogger);
         return Task.CompletedTask;

@@ -13,11 +13,11 @@ internal class LoggerService : ILoggerService
     {
         var log = new LogDto
         {
-            callerName = callerName,
-            level = level,
-            filePath = Path.GetFileName(filePath),
-            lineNumber = lineNumber,
-            message = message
+            CallingFrom = filePath,
+            CallingMethod = callerName,
+            LogLevel = level,
+            LineNumber = lineNumber,
+            Message = message
         };
 
         await _iLog.Log(log);
