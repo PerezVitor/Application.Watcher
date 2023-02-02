@@ -12,7 +12,7 @@ public class AppMiddlewareRequest : IRequest
     private readonly IMapper _mapper;
     public AppMiddlewareRequest(IMapper mapper) => _mapper = mapper;
 
-    public async Task<RequestModel> Log(Guid id, HttpContext context, RecyclableMemoryStreamManager recyclableMemoryStreamManager)
+    public async Task<RequestModel> Run(Guid id, HttpContext context, RecyclableMemoryStreamManager recyclableMemoryStreamManager)
     {
         RequestModel _requestModel = new();
         _requestModel = GetRequestModel(_requestModel, id, context);

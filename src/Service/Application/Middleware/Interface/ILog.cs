@@ -3,5 +3,5 @@
 namespace Service.Application.Middleware.Interface;
 public interface ILog
 {
-    Task Log(LogDto log);
+    Task Run(LogDto log);
 }

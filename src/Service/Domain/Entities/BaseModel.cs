@@ -12,7 +12,7 @@ public abstract class BaseModel : Interfaces.IProcess
     }
 
     [Key]
-    public int Id { get; set; }
+    public long Id { get; set; }
     public Guid CycleId { get; set; }
     public string ApplicationName { get; private set; }
 

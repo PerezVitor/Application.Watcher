@@ -8,8 +8,8 @@ public class ExceptionModel : BaseModel
     public string Method { get; set; }
     public string QueryString { get; set; }
     public string RequestBody { get; set; }
-    public DateTime EncounteredAt { get; set; }
+    public DateTime OcurredAt { get; set; }
     public string StackTrace { get; set; }
 
-    public ExceptionModel() => EncounteredAt = DateTime.Now;
+    public ExceptionModel() => OcurredAt = DateTime.Now;
 }

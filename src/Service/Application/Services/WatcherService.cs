@@ -1,15 +1,10 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Hosting;
 using Service.Application.Commands;
-using Service.Domain.Entities;
+using Service.Domain.Models;
 
 namespace Service.Application.Services;
-internal class WatcherService : BackgroundService
+internal class WatcherService : BaseWatcherService
 {
-    private static readonly List<RequestModel> Requests = new(10000);
-    private static readonly List<ResponseModel> Responses = new(10000);
-    private static readonly List<ExceptionModel> Exceptions = new(10000);
-    private static readonly List<LoggerModel> Logs = new(10000);
     private readonly IMediator _mediator;
     public WatcherService(IMediator mediator) => _mediator = mediator;
 
@@ -18,37 +13,53 @@ internal class WatcherService : BackgroundService
         Console.WriteLine("Iniciando o Background Service");
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (Exceptions.Any())
-            {
-                Exceptions.RemoveAll(row => row.IsExecuted);
-                await Process(new ExceptionCommand(Exceptions.Take(1000).ToList()));
-            }
+            await ProcessExceptions();
+            await ProcessLogs();
+            await ProcessRequests();
+            await ProcessResponses();
 
-            if (Responses.Any())
-            {
-                Responses.RemoveAll(row => row.IsExecuted);
-                await Process(new ResponseCommand(Responses.Take(1000).ToList()));
-            }
-
-            if (Requests.Any())
-            {
-                Requests.RemoveAll(row => row.IsExecuted);
-                await Process(new RequestCommand(Requests.Take(1000).ToList()));
-            }
-
-            if (Logs.Any())
-            {
-                Logs.RemoveAll(row => row.IsExecuted);
-                await Process(new LoggerCommand(Logs.Take(1000).ToList()));
-            }
-
-            await Task.Delay(10000, stoppingToken);
+            await Task.Delay(AppOptionsStatic.BackgroundServiceTimer, stoppingToken);
         }
     }
 
+    #region Service Process Methods
+    private async Task ProcessResponses()
+    {
+        if (!Responses.Any())
+            return;
+
+        Responses.RemoveAll(row => row.IsExecuted);
+        await Process(new ResponseCommand(Responses.Take(AppOptionsStatic.ListLogInsertLength).ToList()));
+    }
+
+    private async Task ProcessRequests()
+    {
+        if (!Requests.Any())
+            return;
+
+        Requests.RemoveAll(row => row.IsExecuted);
+        await Process(new RequestCommand(Requests.Take(AppOptionsStatic.ListLogInsertLength).ToList()));
+    }
+
+    private async Task ProcessLogs()
+    {
+        if (!Logs.Any())
+            return;
+
+        Logs.RemoveAll(row => row.IsExecuted);
+        await Process(new LoggerCommand(Logs.Take(AppOptionsStatic.ListLogInsertLength).ToList()));
+    }
+
+    
+    private async Task ProcessExceptions()
+    {
+        if (!Exceptions.Any())
+            return;
+
+        Exceptions.RemoveAll(row => row.IsExecuted);
+        await Process(new ExceptionCommand(Exceptions.Take(AppOptionsStatic.ListLogInsertLength).ToList()));
+    }
+
     internal async Task Process<T>(T handlerModel) => await _mediator.Send(handlerModel);
-    internal static void AddResquest(RequestModel data) => Requests.Add(data);
-    internal static void AddResponse(ResponseModel data) => Responses.Add(data);
-    internal static void AddException(ExceptionModel data) => Exceptions.Add(data);
-    internal static void AddLog(LoggerModel data) => Logs.Add(data);
+    #endregion
 }

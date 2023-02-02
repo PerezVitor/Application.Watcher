@@ -34,12 +34,12 @@ internal class AppMiddleware
 
         try
         {
-            _requestModel = await _requestLog.Log(id, context, _recyclableMemoryStreamManager);
-            await _responseLog.Log(id, _next, context, _recyclableMemoryStreamManager);
+            _requestModel = await _requestLog.Run(id, context, _recyclableMemoryStreamManager);
+            await _responseLog.Run(id, _next, context, _recyclableMemoryStreamManager);
         }
         catch (Exception ex)
         {
-            await _exceptionLog.Log(id, _requestModel, ex);
+            await _exceptionLog.Run(id, _requestModel, ex);
             throw;
         }
     }

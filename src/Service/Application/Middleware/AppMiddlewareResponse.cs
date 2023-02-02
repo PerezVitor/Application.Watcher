@@ -8,7 +8,7 @@ using Service.Domain.Entities;
 namespace Service.Application.Middleware;
 public class AppMiddlewareResponse : IResponse
 {
-    public async Task Log(Guid id, RequestDelegate next, HttpContext context, RecyclableMemoryStreamManager recyclableMemoryStreamManager)
+    public async Task Run(Guid id, RequestDelegate next, HttpContext context, RecyclableMemoryStreamManager recyclableMemoryStreamManager)
     {
         ResponseModel _responseModel = new();
         using (var originalBodyStream = context.Response.Body)

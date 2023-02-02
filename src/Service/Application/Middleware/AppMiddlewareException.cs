@@ -9,7 +9,7 @@ internal class AppMiddlewareException : IException
     private readonly IMapper _mapper;
     public AppMiddlewareException(IMapper mapper) => _mapper = mapper;
 
-    public Task Log(Guid id, RequestModel request, Exception exception)
+    public Task Run(Guid id, RequestModel request, Exception exception)
     {
         ExceptionModel _exceptionLogger = new();
         _mapper.Map(request, _exceptionLogger);

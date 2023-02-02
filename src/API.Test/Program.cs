@@ -10,6 +10,7 @@ builder.Services.AddAppWatcherServices(opt =>
 {
     opt.ConnectionString = builder.Configuration.GetConnectionString("AppWatcher");
     opt.ApplicationName = "API.Test";
+    opt.BackgroundServiceTimer = 5000;
 });
 #endregion
 
@@ -45,4 +46,4 @@ public static class AppLog
     public static void Log(ILoggerService _logger) => _logger.Log("Hello!");
 }
 
-public sealed record AppData (string name, string message);
+public sealed record AppData (string description, string message);

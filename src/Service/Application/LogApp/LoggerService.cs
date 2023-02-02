@@ -20,7 +20,7 @@ internal class LoggerService : ILoggerService
             Message = message
         };
 
-        await _iLog.Log(log);
+        await _iLog.Run(log);
     }
 
     public async Task LogError(string message, [CallerMemberName] string callerName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)

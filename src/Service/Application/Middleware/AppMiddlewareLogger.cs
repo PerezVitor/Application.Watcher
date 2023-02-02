@@ -10,7 +10,7 @@ internal class AppMiddlewareLogger : ILog
     private readonly IMapper _mapper;
     public AppMiddlewareLogger(IMapper mapper) => _mapper = mapper;
 
-    public Task Log(LogDto log)
+    public Task Run(LogDto log)
     {
         LoggerModel _loggerModel = new();
 
