@@ -477,4 +477,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # Settings
-appsettings.json
+/src/API.Test/appsettings.json
